@@ -1,0 +1,46 @@
+
+PLAY [Host configuration] ******************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [firas-taher5.mylabserver.com]
+
+TASK [oraswdb-install : Check if DB-server is already installed] ***************
+changed: [firas-taher5.mylabserver.com]
+
+TASK [oraswdb-install : Mount nfs share with installation media] ***************
+skipping: [firas-taher5.mylabserver.com]
+
+TASK [oraswdb-install : Add new dotprofile (DB)] *******************************
+ok: [firas-taher5.mylabserver.com]
+
+TASK [oraswdb-install : Add oraInst.loc] ***************************************
+ok: [firas-taher5.mylabserver.com]
+
+TASK [oraswdb-install : Create stage directory (base)] *************************
+ok: [firas-taher5.mylabserver.com]
+
+TASK [oraswdb-install : Create rsp stage directory] ****************************
+ok: [firas-taher5.mylabserver.com]
+
+TASK [oraswdb-install : Create ORACLE_BASE directory] **************************
+ok: [firas-taher5.mylabserver.com]
+
+TASK [oraswdb-install : Create cfgtoollogs directory] **************************
+ok: [firas-taher5.mylabserver.com]
+
+TASK [oraswdb-install : Create admin directory] ********************************
+ok: [firas-taher5.mylabserver.com]
+
+TASK [oraswdb-install : Create audit directory] ********************************
+ok: [firas-taher5.mylabserver.com]
+
+TASK [oraswdb-install : Create ORACLE_HOME directory] **************************
+ok: [firas-taher5.mylabserver.com]
+
+TASK [oraswdb-install : Transfer oracle installfiles to server (local)] ********
+fatal: [firas-taher5.mylabserver.com]: FAILED! => {"failed": true, "msg": "The task includes an option with an undefined variable. The error was: dict object has no element 0\n\nThe error appears to have been in '/home/user/Oracle/ansible-oracle-master/roles/oraswdb-install/tasks/main.yml': line 63, column 5, but may\nbe elsewhere in the file depending on the exact syntax problem.\n\nThe offending line appears to be:\n\n\n  - name: Transfer oracle installfiles to server (local)\n    ^ here\n"}
+	to retry, use: --limit @/home/user/Oracle/ansible-oracle-master/single-instance-db-on-fs.retry
+
+PLAY RECAP *********************************************************************
+firas-taher5.mylabserver.com : ok=11   changed=1    unreachable=0    failed=1   
+

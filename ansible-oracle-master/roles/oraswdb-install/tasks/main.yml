@@ -1,0 +1,200 @@
+---
+
+  - name: Check if DB-server is already installed
+    shell: grep "{{ oracle_home_db  }}" "{{ oracle_inventory_loc }}/ContentsXML/inventory.xml" |wc -l
+    tags:
+    - checkifdbinstall
+    register: checkdbswinstall
+
+  - name: Mount nfs share with installation media
+    mount: src="{{ nfs_server_sw }}:{{ nfs_server_sw_path }}" name={{ oracle_stage_remote }} fstype=nfs state=mounted
+    when: install_from_nfs|bool
+    tags:
+      - nfsmountdb
+
+  - name: Add new dotprofile (DB)
+    template: src=dotprofile-db.j2 dest="{{ oracle_user_home }}/.profile" owner={{ oracle_user }} group={{ oracle_group }} mode=775 backup=yes
+    tags:
+    - dotprofiledb
+  - name: Add oraInst.loc
+    template: src=oraInst.loc.j2 dest=/etc/oraInst.loc owner={{ oracle_user }} group={{ oracle_group }} mode=644 backup=yes
+    tags:
+    - orainst
+
+  - name: Create stage directory (base)
+    file: dest="{{ oracle_stage }}/11.2" mode=775 owner={{ oracle_user }} group={{ oracle_group }} state=directory
+    tags:
+      - directoriesdb
+
+
+  - name: Create rsp stage directory
+    file: dest={{ oracle_rsp_stage }} mode=775 owner={{ oracle_user }} group={{ oracle_group }} state=directory
+    tags:
+      - directoriesdb
+
+  - name: Create ORACLE_BASE directory
+    file: dest={{ oracle_base }} mode=775 owner={{ oracle_user }} group={{ oracle_group }} state=directory
+    tags:
+      - directoriesdb
+
+  - name: Create cfgtoollogs directory
+    file: dest={{ oracle_base }}/cfgtoollogs mode=775 owner={{ oracle_user }} group={{ oracle_group }} state=directory recurse=yes
+    become: yes
+    tags:
+      - directoriesdb
+
+  - name: Create admin directory
+    file: dest={{ oracle_base }}/admin mode=775 owner={{ oracle_user }} group={{ oracle_group }} state=directory
+    become: yes
+    tags:
+      - directoriesdb
+
+  - name: Create audit directory
+    file: dest={{ oracle_base }}/audit mode=775 owner={{ oracle_user }} group={{ oracle_group }} state=directory
+    become: yes
+    tags:
+      - directoriesdb
+
+  - name: Create ORACLE_HOME directory
+    file: dest={{ oracle_home_db }} mode=775 owner={{ oracle_user }} group={{ oracle_group }} state=directory
+    tags:
+      - directoriesdb
+
+#  - name: Transfer oracle installfiles to server (local)
+<<<<<<< HEAD
+ #   copy: src={{ oracle_sw_source_local }}/{{ item.filename }} dest={{ oracle_stage }} mode=775
+  #  with_items:
+   #   - "{{oracle_sw_image_db}}"
+   # become: yes
+   # become_user: "{{ oracle_user }}"
+   # tags:
+   #   - oradbsw
+
+ # - name: Extract files to stage-area
+ #   unarchive: src={{ oracle_stage }}/{{ item.filename }}  dest={{ oracle_stage }}/11.2 copy=no
+  #  with_items:
+   #   - "{{oracle_sw_image_db}}"
+   # become: yes
+   # become_user: "{{ oracle_user }}"
+   # tags:
+   #   - oradbswunpack
+=======
+#    copy: src={{ oracle_sw_source_local }}/{{ item.filename }} dest={{ oracle_stage }} mode=775
+#    with_items:
+#      - "{{oracle_sw_image_db}}"
+#    become: yes
+#    become_user: "{{ oracle_user }}"
+#    tags:
+#      - oradbsw
+
+#  - name: Extract files to stage-area
+#    unarchive: src={{ oracle_stage }}/{{ item.filename }}  dest={{ oracle_stage }}/11.2.0.1 copy=no
+ #   with_items:
+ #     - "{{oracle_sw_image_db}}"
+ #   become: yes
+ #   become_user: "{{ oracle_user }}"
+ #   tags:
+ #     - oradbswunpack
+>>>>>>> 071ba98e39314ae133aa9d8c74264b69b4a3f940
+
+
+  - name: Setup response file for install (DB)
+    template: src=db-install.rsp.11.2.0.3.j2 dest={{ oracle_rsp_stage }}/{{ oracle_db_responsefile }}
+    become: yes
+    become_user: "{{ oracle_user }}"
+    tags:
+      - responsefileswdb
+
+  - name: Create script to install Database Server
+    template: src=run-db-install.sh.j2 dest={{ oracle_rsp_stage }}/{{ oracle_db_run_install }} mode=755
+    become: yes
+    become_user: "{{ oracle_user }}"
+    tags:
+      - responsefileswdb
+
+  - name: Install Oracle Database Server
+    shell: "{{ oracle_rsp_stage }}/{{ oracle_db_run_install }}"
+    become: yes
+    become_user: "{{ oracle_user }}"
+    tags:
+      - oradbinstall
+    register: oradbinstall
+
+  - debug: var=item
+    with_items:
+        - "{{ oradbinstall.results|map(attribute='stdout_lines')|list }}"
+    tags:
+     - oradbinstall
+    ignore_errors: true
+
+
+
+  - name: Run root script after installation
+    shell: "{{ oracle_home_db }}/root.sh"
+    tags:
+      - runroot
+
+  - name: Generate glogin.sql
+    template: src=glogin.sql.j2 dest="{{ oracle_home_db }}/sqlplus/admin/glogin.sql" backup=yes
+    with_items:
+     - "{{oracle_databases}}"
+    become: yes
+    become_user: "{{ oracle_user }}"
+    tags:
+      - glogindb
+      
+  - name: Check opatch lsinventory (DB)
+    shell: "{{ oracle_home_db }}/OPatch/opatch lsinventory"
+    with_items: "{{oracle_databases}}"
+    become: yes
+    become_user: "{{ oracle_user }}"
+    register: opatchls
+    tags:
+     - opatchls
+
+  - debug: var=item
+    with_items:
+        - "{{ opatchls.results|map(attribute='stdout_lines')|list }}"
+    when: master_node
+    tags:
+     - opatchls
+    ignore_errors: true
+
+  - name: Unmount nfs share with installation media
+    mount: src="{{ nfs_server_sw }}:{{ nfs_server_sw_path }}" name={{ oracle_stage_remote }} fstype=nfs state=absent
+    when: install_from_nfs|bool
+    tags:
+      - nfsunmountdb
+
+  - name: Check if systemd or init.d is used
+    shell: ps -e|grep " 1 ?"|cut -d " " -f15
+    tags:
+    - checkinitdaemons
+    - autostartup_service
+    register: checkinitdaemons
+    when: autostartup_service
+
+  - name: Configure DB instances auto-startup service (init.d)
+    template: src=dbora.j2 dest=/etc/init.d/dbora owner=root mode=750
+    become: true
+    with_items: "{{oracle_databases}}"
+    when: autostartup_service and checkinitdaemons.stdout == "init"
+    tags: autostartup_service
+
+  - name: Register dbora service (init.d)
+    command: "chkconfig --add dbora"
+    become: true
+    when: autostartup_service and checkinitdaemons.stdout == "init"
+    tags: autostartup_service
+  # Prepare for Linux 7
+  - name: Configure oracle-rdbms auto-startup service (systemd.d)
+    template: src=oracle-rdbms-service.j2 dest=/etc/systemd/system/oracle-rdbms.service owner=root
+    become: true
+    with_items: "{{oracle_databases}}"
+    when: autostartup_service and checkinitdaemons.stdout == "systemd"
+    tags: autostartup_service
+
+  - name: Register oracle-rdbms service (system.d)
+    systemd: name=oracle-rdbms daemon_reload=yes enabled=yes
+    when: autostartup_service and checkinitdaemons.stdout == "systemd" #and ansible_version.full >= "2.2"
+    tags: autostartup_service

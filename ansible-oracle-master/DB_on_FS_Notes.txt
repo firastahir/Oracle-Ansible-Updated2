@@ -1,0 +1,8 @@
+single-instance-db-on-fs.yml is the YML Playbook for installing DB single instance on FS
+The host is configured by running two roles respectively: Common, and orahost
+Common role installs generic packages and configures NTP
+Orahost configures Host-Specific Oracle stuff
+Once the host is configured for Oracle, next we need to Install Oracle DB SW by running the oraswdb-install role
+After Oracle SW is successfully installed, next we need to create the DB and the Listener by calling the oradb-create role
+In Common Role: the first thing we need is to install the epel repo, a variable (epel_rpm) is referenced to refer to the name of the package to be installed on Centos and RH systems
+First we need to install epel-release, the way he chose to do that is by installing an specific rpm based on the OS version 6 or 7, while it would've been easier to just call it from yum

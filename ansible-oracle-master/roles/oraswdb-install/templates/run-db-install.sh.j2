@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+#!/bin/bash
+
+chkifinstalled=`grep "{{ oracle_home_db }}" "{{ oracle_inventory_loc }}/ContentsXML/inventory.xml" |wc -l`
+if [[ $chkifinstalled == 1 ]]; then
+ echo "Error: ORACLE_HOME: {{ oracle_home_db }} already present. Exiting"
+ exit 0
+else
+<<<<<<< HEAD
+{{ oracle_stage_install }}/11.2/database/runInstaller -responseFile {{ oracle_rsp_stage }}/{{ oracle_db_responsefile }} -ignorePrereq -ignoreSysPrereqs -silent -waitforcompletion
+=======
+{{ oracle_stage_install }}/11.2.0.1/database/runInstaller -responseFile {{ oracle_rsp_stage }}/{{ oracle_db_responsefile }} -ignorePrereq -ignoreSysPrereqs -silent -waitforcompletion
+>>>>>>> 071ba98e39314ae133aa9d8c74264b69b4a3f940
+fi

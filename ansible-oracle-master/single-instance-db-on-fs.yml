@@ -1,0 +1,10 @@
+---
+
+
+ - name: Host configuration
+   hosts: myhosts
+   user: user
+   sudo: yes
+   roles:
+      - oraswdb-install 
+

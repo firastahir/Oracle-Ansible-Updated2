@@ -1,0 +1,77 @@
+
+PLAY [Host configuration] ******************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [firas-taher3.mylabserver.com]
+
+TASK [oraswdb-install : Check if DB-server is already installed] ***************
+changed: [firas-taher3.mylabserver.com] => (item={u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'})
+
+TASK [oraswdb-install : Mount nfs share with installation media] ***************
+skipping: [firas-taher3.mylabserver.com]
+
+TASK [oraswdb-install : Add new dotprofile (DB)] *******************************
+ok: [firas-taher3.mylabserver.com] => (item={u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'})
+
+TASK [oraswdb-install : Add oraInst.loc] ***************************************
+ok: [firas-taher3.mylabserver.com]
+
+TASK [oraswdb-install : Create stage directory (base)] *************************
+ok: [firas-taher3.mylabserver.com]
+
+TASK [oraswdb-install : Create stage directory (version specific)] *************
+ok: [firas-taher3.mylabserver.com] => (item=[{u'version': u'12.2.0.1', u'filename': u'linuxx64_12201_database.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}])
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'12.1.0.2', u'filename': u'linuxamd64_12102_database_1of2.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'12.1.0.2', u'filename': u'linuxamd64_12102_database_2of2.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'12.1.0.1', u'filename': u'linuxamd64_12c_database_1of2.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'12.1.0.1', u'filename': u'linuxamd64_12c_database_2of2.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'11.2.0.4', u'filename': u'p13390677_112040_Linux-x86-64_1of7.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'11.2.0.4', u'filename': u'p13390677_112040_Linux-x86-64_2of7.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'11.2.0.3', u'filename': u'p10404530_112030_Linux-x86-64_1of7.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'11.2.0.3', u'filename': u'p10404530_112030_Linux-x86-64_2of7.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+
+TASK [oraswdb-install : Create rsp stage directory] ****************************
+ok: [firas-taher3.mylabserver.com]
+
+TASK [oraswdb-install : Create ORACLE_BASE directory] **************************
+ok: [firas-taher3.mylabserver.com]
+
+TASK [oraswdb-install : Create cfgtoollogs directory] **************************
+ok: [firas-taher3.mylabserver.com]
+
+TASK [oraswdb-install : Create admin directory] ********************************
+ok: [firas-taher3.mylabserver.com]
+
+TASK [oraswdb-install : Create audit directory] ********************************
+ok: [firas-taher3.mylabserver.com]
+
+TASK [oraswdb-install : Create ORACLE_HOME directory] **************************
+ok: [firas-taher3.mylabserver.com] => (item={u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'})
+
+TASK [oraswdb-install : Transfer oracle installfiles to server (www)] **********
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'12.2.0.1', u'filename': u'linuxx64_12201_database.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'12.1.0.2', u'filename': u'linuxamd64_12102_database_1of2.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'12.1.0.2', u'filename': u'linuxamd64_12102_database_2of2.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'12.1.0.1', u'filename': u'linuxamd64_12c_database_1of2.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'12.1.0.1', u'filename': u'linuxamd64_12c_database_2of2.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'11.2.0.4', u'filename': u'p13390677_112040_Linux-x86-64_1of7.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'11.2.0.4', u'filename': u'p13390677_112040_Linux-x86-64_2of7.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'11.2.0.3', u'filename': u'p10404530_112030_Linux-x86-64_1of7.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'11.2.0.3', u'filename': u'p10404530_112030_Linux-x86-64_2of7.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+
+TASK [oraswdb-install : Transfer oracle installfiles to server (local)] ********
+An exception occurred during task execution. To see the full traceback, use -vvv. The error was: AnsibleFileNotFound: Could not find or access '/tmp/linuxx64_12201_database.zip'
+failed: [firas-taher3.mylabserver.com] (item=[{u'version': u'12.2.0.1', u'filename': u'linuxx64_12201_database.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) => {"changed": false, "item": [{"filename": "linuxx64_12201_database.zip", "version": "12.2.0.1"}, {"home": "db1", "oracle_db_name": "orcl", "oracle_db_type": "SI", "oracle_edition": "EE", "oracle_version_db": "12.2.0.1"}], "msg": "Could not find or access '/tmp/linuxx64_12201_database.zip'"}
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'12.1.0.2', u'filename': u'linuxamd64_12102_database_1of2.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'12.1.0.2', u'filename': u'linuxamd64_12102_database_2of2.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'12.1.0.1', u'filename': u'linuxamd64_12c_database_1of2.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'12.1.0.1', u'filename': u'linuxamd64_12c_database_2of2.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'11.2.0.4', u'filename': u'p13390677_112040_Linux-x86-64_1of7.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'11.2.0.4', u'filename': u'p13390677_112040_Linux-x86-64_2of7.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'11.2.0.3', u'filename': u'p10404530_112030_Linux-x86-64_1of7.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+skipping: [firas-taher3.mylabserver.com] => (item=[{u'version': u'11.2.0.3', u'filename': u'p10404530_112030_Linux-x86-64_2of7.zip'}, {u'oracle_db_type': u'SI', u'home': u'db1', u'oracle_edition': u'EE', u'oracle_db_name': u'orcl', u'oracle_version_db': u'12.2.0.1'}]) 
+	to retry, use: --limit @/home/user/Oracle/ansible-oracle-master/single-instance-db-on-fs.retry
+
+PLAY RECAP *********************************************************************
+firas-taher3.mylabserver.com : ok=12   changed=1    unreachable=0    failed=1   
+
